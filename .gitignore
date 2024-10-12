@@ -1,0 +1,15 @@
+
+OBJ/
+*.o
+*.o.json
+*.d
+
+.cache/
+compile_commands.json
+
+*.out
+
+lib/libft
+
+
+
