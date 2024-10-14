@@ -3,7 +3,7 @@
 #=========  GENERAL VARIABLES:  =========#
 #========================================#
 
-NAME			:=	sha256
+NAME			:=	sha256.out
 
 OBJ_DIR			:=	OBJ
 SRC_DIR			:=	src

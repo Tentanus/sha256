@@ -1,6 +1,6 @@
 
 #include <sha.h>
-#include <sha256_dev.h>
+#include <sha256.h>
 
 int main(int argc, char *argv[])
 {
