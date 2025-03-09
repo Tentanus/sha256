@@ -8,11 +8,23 @@
 // 512 bits = 32-bit words * 16
 // 1024 bits = 128 bytes
 
+// Macros
+
+#define INT uint32_t
+#define WORDSIZE sizeof(uint32_t)
+#define BLOCKSIZE 512
+
+// NOTE: add include for sha256 operations here so defines
+// will be taken into the genralized functions
+
 // Include
 #include <stdint.h>
 #include <stdio.h>
 
-// Constants
+#include "sha.h"
+
+#include "ft_printf.h"
+#include "libft.h"
 
 const uint32_t k_const[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
