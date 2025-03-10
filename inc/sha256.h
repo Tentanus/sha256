@@ -1,5 +1,5 @@
-#ifndef SHA256_HPP
-#define SHA256_HPP
+#ifndef SHA256_H
+#define SHA256_H
 
 // Big Endian notation
 // so left most byte is the most significant byte.
@@ -10,21 +10,17 @@
 
 // Macros
 
-#define INT uint32_t
-#define WORDSIZE sizeof(uint32_t)
-#define BLOCKSIZE 512
-
-// NOTE: add include for sha256 operations here so defines
-// will be taken into the genralized functions
+#define WORD_SIZE sizeof(uint32_t)
+#define BLOCK_SIZE 512
 
 // Include
-#include <stdint.h>
-#include <stdio.h>
-
-#include "sha.h"
+#include "sha_operations.h"
 
 #include "ft_printf.h"
 #include "libft.h"
+
+#include <stdint.h>
+#include <stdio.h>
 
 const uint32_t k_const[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
@@ -41,4 +37,4 @@ const uint32_t k_const[64] = {
 // Function Prototypes
 int sha256(const char *str);
 
-#endif // !SHA256_HPP
+#endif // !SHA256_H

@@ -70,6 +70,8 @@ INFO_FL			:=	\
 #============== RECIPIES  ===============#
 #========================================#
 
+
+.PHONY: all
 all:$(DIR_LIST) $(NAME)
 
 $(DIR_LIST):
@@ -80,6 +82,7 @@ $(NAME): $(LIBFT) $(OBJ) compile_commands.json
 	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "$(COMPILE) $(INCLUDE) $(CYAN)$(notdir $(OBJ))$(RESET) -o $(NAME)"
 
+.PHONY: compile_commands.json
 compile_commands.json: $(OBJ)
 	@(echo "["; cat $(OBJ:%=%.json); echo "]") > $@
 
@@ -87,16 +90,20 @@ $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
 	@$(COMPILE) -MJ $@.json $(INCLUDE) -MMD -o $@ -c $< 
 	@echo "$(CYAN)COMPILE $(INFO_FL) $(notdir $(<:%.c=%))$(RESET)"
 
+.PHONY: clean
 clean: 
 	@rm -rf $(OBJ_DIR)
 	@rm -rf compile_commands.json
 	@echo "$(RED)$(BOLD)CLEANING $(NAME)$(RESET)"
 
+.PHONY: fclean
 fclean: clean 
 	@rm -f $(NAME)
 
+.PHONY: re
 re: fclean all
 
+.PHONY: echo
 echo:
 	@echo $(SRC) "\n"
 	@echo $(OBJ) "\n"
