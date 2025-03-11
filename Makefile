@@ -5,20 +5,11 @@
 
 NAME			:=	sha256
 
-OBJ_DIR			:=	OBJ
-SRC_DIR			:=	src
-INC_DIR			:=	inc
-LIB_DIR			:=	lib
-
 SRC					:=									\
-								main.c					\
 								sha256.c				\
+								main.c					\
 
-OBJ					:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
-SRC					:=	$(SRC:%=$(SRC_DIR)/%)
-DEP					:=	$(OBJ:.o=.d)
-DIR_LIST		:=	$(sort $(dir $(OBJ)))
-
+include make/definitions.mk
 -include $(DEP)
 
 #=============  LIBRARIES ===============#
@@ -32,44 +23,11 @@ $(LIBFT):
 #============= COMPILATION ==============#
 
 INCLUDE			:=	-I $(INC_DIR)							\
-								-I $(LIBFT_DIR)/include		\
-
-CC					:=	clang
-CFL					:=	-Wall -Werror -Wextra -Wpedantic
-
-ifdef FSAN
-CFL					+=	-g -fsanitize=address,undefined
-endif
-
-ifdef DEBUG
-CFL					+=	-g -fstandalone-debug
-CFL					+=	-D DEBUG=1
-endif
-
-ifndef NOMSG
-CFL					+=	-D MSG=1
-endif
-
-#=============  SHOW TIME  ==============#
-
-ifdef SHOW
-CFL					+=	-D SHOW=1
-endif
-
-COMPILE			:=	$(CC) $(CFL)
-
-INFO_FL			:=	\
-					$(if $(findstring -g,$(CFL)),-g)			\
-					$(if $(findstring address,$(CFL)),addr)		\
-					$(if $(findstring undefined,$(CFL)),undef)	\
-					$(if $(findstring MSG,$(CFL)),msg)			\
-					$(if $(findstring DEBUG,$(CFL)),debug)		\
-
+								-I $(LIBFT_DIR)/include
 
 #========================================#
 #============== RECIPIES  ===============#
 #========================================#
-
 
 .PHONY: all
 all:$(DIR_LIST) $(NAME)
@@ -80,7 +38,7 @@ $(DIR_LIST):
 $(NAME): $(LIBFT) $(OBJ) compile_commands.json
 	@echo ""
 	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIBFT) -o $(NAME)
-	@echo "$(COMPILE) $(INCLUDE) $(CYAN)$(notdir $(OBJ))$(RESET) -o $(NAME)"
+	@echo "$(COMPILE) $(GREEN)$(INCLUDE) $(CYAN)$(notdir $(OBJ)) $(BLUE)$(LIBFT) $(RESET)-o $(NAME)"
 
 .PHONY: compile_commands.json
 compile_commands.json: $(OBJ)
@@ -108,6 +66,10 @@ echo:
 	@echo $(SRC) "\n"
 	@echo $(OBJ) "\n"
 
+#================= TEST =================#
+
+include make/unit_test.mk
+
 #========================================#
 #============ MISCELLANEOUS =============#
 #========================================#
@@ -121,5 +83,6 @@ echo:
 BOLD	:= \033[1m
 RED		:= \033[31;1m
 GREEN	:= \033[32;1m
+BLUE	:= \033[34;1m
 CYAN	:= \033[36;1m
 RESET	:= \033[0m

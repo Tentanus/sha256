@@ -1,6 +1,6 @@
 
-#include <sha.h>
-#include <sha256.h>
+#include "sha.h"
+#include "sha256.h"
 
 int usage(char *binary_name)
 {
