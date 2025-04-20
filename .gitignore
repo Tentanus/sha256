@@ -1,15 +1,15 @@
 
+# EXECUTABLES
+*.out
+
+# COMPILATION FILES
 OBJ/
 *.o
 *.o.json
 *.d
-
-.cache/
 compile_commands.json
 
-*.out
-
-lib/libft
-
+# LSP 
+.cache/
 
 
