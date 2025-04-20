@@ -8,14 +8,14 @@ SRC_DIR			:=	src
 INC_DIR			:=	inc
 LIB_DIR			:=	lib
 
-OBJ					:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
+OBJ					:=	$(SRC:%.cpp=$(OBJ_DIR)/%.o)
 SRC					:=	$(SRC:%=$(SRC_DIR)/%)
 DEP					:=	$(OBJ:.o=.d)
 DIR_LIST		:=	$(sort $(dir $(TOBJ) $(OBJ)))
 
 #============= COMPILATION ==============#
 
-CC					:=	clang
+CC					:=	clang++
 CFL					:=	-Wall -Werror -Wextra -Wpedantic
 
 ifdef FSAN

@@ -16,9 +16,6 @@
 // Include
 #include "sha_operations.h"
 
-#include "ft_printf.h"
-#include "libft.h"
-
 #include <stdint.h>
 #include <stdio.h>
 

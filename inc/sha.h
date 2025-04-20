@@ -3,6 +3,8 @@
 
 // Include
 
+#include <iostream>
+
 // Function Prototypes
 int sha256(const char *str);
 
