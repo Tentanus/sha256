@@ -8,13 +8,13 @@
 // 512 bits = 32-bit words * 16
 // 1024 bits = 128 bytes
 
+// Include
+#include "sha_operations.h"
+
 // Macros
 
 #define WORD_SIZE sizeof(uint32_t)
 #define BLOCK_SIZE 512
-
-// Include
-#include "sha_operations.h"
 
 #include <stdint.h>
 #include <stdio.h>

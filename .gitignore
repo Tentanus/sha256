@@ -1,15 +1,5 @@
-
-# EXECUTABLES
-*.out
-
-# COMPILATION FILES
-OBJ/
-*.o
-*.o.json
-*.d
-compile_commands.json
+# BUILD FILES
+build/
 
 # LSP 
 .cache/
-
-
