@@ -1,6 +1,7 @@
+#include <cstdint>
+#include <stdio.h>
+#include "sha256.hpp"
 
-int sha256(const char *str)
+int main(int argc, char **argv)
 {
-	(void)str;
-	return (0);
 }

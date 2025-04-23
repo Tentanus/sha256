@@ -14,7 +14,7 @@ include(GoogleTest)
 enable_testing()
 
 add_library(sha
-  src/sha.cpp
+  src/sha256.cpp
 )
 
 target_include_directories(

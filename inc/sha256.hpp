@@ -8,17 +8,16 @@
 // 512 bits = 32-bit words * 16
 // 1024 bits = 128 bytes
 
-// Include
-#include "sha_operations.h"
-
 // Macros
 
-#define WORD_SIZE sizeof(uint32_t)
 #define BLOCK_SIZE 512
+#define WORD_SIZE 32
 
 #include <stdint.h>
 #include <stdio.h>
 
+
+// Constants
 const uint32_t k_const[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
 	0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
@@ -29,7 +28,31 @@ const uint32_t k_const[64] = {
 	0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
 	0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
 	0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
-	0xc67178f2};
+	0xc67178f2
+};
+
+// Operations
+#define ROTL(x, n) ((x << n) | (x >> (WORD_SIZE - n)))
+#define ROTR(x, n) ((x >> n) | (x << (WORD_SIZE - n)))
+#define SHR(x, n) (x >> n)
+#define SHL(x, n) (x << n)
+
+// Logical functions
+#define Ch(x, y, z) ((x & y) ^ (~x & z))
+#define Maj(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
+#define BSIG0(x) (ROTR(x, 2) ^ ROTR(x, 13) ^ ROTR(x, 22))
+#define BSIG1(x) (ROTR(x, 6) ^ ROTR(x, 11) ^ ROTR(x, 25))
+#define SSIG0(x) (ROTR(x, 7) ^ ROTR(x, 18) ^ (x >> 3))
+#define SSIG1(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ (x >> 10))
+
+/*
+CH( x, y, z) = (x AND y) XOR ( (NOT x) AND z)
+MAJ( x, y, z) = (x AND y) XOR (x AND z) XOR (y AND z)
+BSIG0(x) = ROTR^2(x) XOR ROTR^13(x) XOR ROTR^22(x)
+BSIG1(x) = ROTR^6(x) XOR ROTR^11(x) XOR ROTR^25(x)
+SSIG0(x) = ROTR^7(x) XOR ROTR^18(x) XOR SHR^3(x)
+SSIG1(x) = ROTR^17(x) XOR ROTR^19(x) XOR SHR^10(x)
+*/
 
 // Function Prototypes
 int sha256(const char *str);
