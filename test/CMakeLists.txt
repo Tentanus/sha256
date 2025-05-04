@@ -22,4 +22,4 @@ target_link_libraries(sha256_test
 )
 
 # Register the test
-add_test(NAME factorial_test COMMAND factorial_test)
+add_test(NAME sha256_test COMMAND sha256_test)
