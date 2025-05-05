@@ -32,8 +32,8 @@ const uint32_t k_const[64] = {
 };
 
 // Operations
-#define ROTL(x, n) ((x << n) | (x >> (WORD_SIZE - n)))
-#define ROTR(x, n) ((x >> n) | (x << (WORD_SIZE - n)))
+#define ROTL(x, n) ((x << n) | (x >> (sizeof(x) * 8 - n)))
+#define ROTR(x, n) ((x >> n) | (x << (sizeof(x) * 8 - n)))
 #define SHR(x, n) (x >> n)
 #define SHL(x, n) (x << n)
 

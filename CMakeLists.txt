@@ -9,10 +9,6 @@ project(Gtest
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Enable testing for this project
-include(GoogleTest)
-enable_testing()
-
 add_library(sha
   src/sha256.cpp
 )
