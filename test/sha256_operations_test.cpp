@@ -32,5 +32,4 @@ TEST(sha256_operations, rotr)
 	EXPECT_EQ(ROTR(0xFFFFFFFF, 20), 0xFFFFFFFF);	// see if -1 stays -1
 
 	EXPECT_EQ(ROTR(0x00000001, 32), 0x00000001);	// overflow the rotation
-
 }

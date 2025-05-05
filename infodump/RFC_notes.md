@@ -46,3 +46,39 @@ represented by multiple-words.
 
 d. block = 512-bit or 1024-bit string.  A block (e.g., B) may be
 represented as a sequence of 32-bit or 64-bit words.
+
+Preprocessing:
+4.1.  Padding SHA-256
+
+Suppose a message has length L < 2^64.  Before it is input to the
+hash function, the message is padded on the right as follows:
+a. "1" is appended.  Example: if the original message is "01010000",
+   this is padded to "010100001".
+b. K "0"s are appended where K is the smallest, non-negative solution
+   to the equation
+      ( L + 1 + K ) mod 512 = 448
+c. Then append the 64-bit block that is L in binary representation.
+   After appending this block, the length of the message will be a
+   multiple of 512 bits.
+   
+Example: Suppose the original message is the bit string
+    01100001 01100010 01100011 01100100 01100101        (length: 40)
+After step (a) this gives
+    01100001 01100010 01100011 01100100 01100101 1
+
+Since L = 40, the number of bits in the above is 41 and K = 407
+"0"s are appended, making the total now 448.  This gives the
+following in hex:
+
+         61626364 65800000 00000000 00000000
+         00000000 00000000 00000000 00000000
+         00000000 00000000 00000000 00000000
+         00000000 00000000
+
+      The 64-bit representation of L = 40 is hex 00000000 00000028.
+      Hence the final padded message is the following hex
+
+         61626364 65800000 00000000 00000000
+         00000000 00000000 00000000 00000000
+         00000000 00000000 00000000 00000000
+         00000000 00000000 00000000 00000028
