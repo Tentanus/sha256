@@ -3,8 +3,8 @@
 ## 📝 Overview
 
 This repository contains an implementation of the SHA-256 (Secure Hash Algorithm 256-bit) 
-cryptographic hash function. SHA-256 is part of the SHA-2 family of hash functions, published by the 
-National Security Agency (NSA) in 2001.
+cryptographic hash function. SHA-256 is part of the SHA-2 family of hash functions, published 
+by the National Security Agency (NSA) in 2001.
 
 ## 🔍 What is SHA-256?
 
@@ -16,18 +16,22 @@ fixed-size output of 256 bits (32 bytes). Key properties include:
 - Collision-resistant (extremely difficult to find different inputs with the same output)
 - Avalanche effect (small changes in input create large changes in output)
 
+SHA-256 offers strong security against classical computing attacks, but quantum computing 
+poses new challenges.
+
 ## 🧪 Practice Implementation
 
 This implementation is a practice exercise for understanding cryptographic hash functions 
-and low-level bit manipulation. It serves as a learning tool rather than a production-ready library.
+and low-level bit manipulation. It serves as a learning tool rather than a production-ready 
+library.
 
 ## 🚀 Future Plans
 
 This project is intended to grow into a comprehensive SHA library that will include:
 
-- SHA-1 (legacy)
 - Other SHA-2 variants (SHA-224, SHA-384, SHA-512, SHA-512/224, SHA-512/256)
 - SHA-3 family implementations
+- SHA-1 (legacy)
 
 ## ⚙️ Technical Details
 
