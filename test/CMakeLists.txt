@@ -13,7 +13,7 @@ enable_testing()
 
 # Build the test executable
 add_executable(test_sha256
-    sha256_operations_test.cpp
+    sha256_defines_test.cpp
     sha256_options_test.cpp
 )
 
