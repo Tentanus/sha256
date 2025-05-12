@@ -27,14 +27,14 @@ uint32_t rightRotate(uint32_t n, uint32_t d) {
 // Driver code
 int main() {
     
-    uint32_t n = 0x7FF;
+    uint32_t n = 0x1FFFFFFF;
 	uint32_t r1 = 2, r2 = 13, r3 = 22;
 	
 	uint32_t res1 = rightRotate(n, r1);
 	uint32_t res2 = rightRotate(n, r2);
 	uint32_t res3 = rightRotate(n, r3);
 
-    uint32_t result = res1 | res2 | res3;
+    uint32_t result = res1 ^ res2 ^ res3;
 
     std::cout << std::hex <<
         std::setw(10) << n << "\n\n" <<
