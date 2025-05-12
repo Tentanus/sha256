@@ -1,35 +1,46 @@
+// C++ Code to perform left and right rotations 
+// on the binary representation of a 32-bit integer
+#include <bits/stdc++.h>
 #include <iostream>
-#include "inc/sha256.hpp"
 
-void showWork(uint32_t i, uint32_t x) {
-    uint32_t rot6 = ROTR(i, 6);
-    uint32_t rot11 = ROTR(i, 11);
-    uint32_t rot25 = ROTR(i, 25);
+// Function to perform right rotation
+uint32_t rightRotate(uint32_t n, uint32_t d) {
+    
+    // Rotation of 32 is same as rotation of 0
+    d = d % 32;
+    
+    // Picking the leftmost d bits
+    int mask = (1 << d) - 1;
+    int shift = (n & mask);
+    
+    // Moving the remaining bits to their new location
+    n = (n >> d);
+    
+    // Adding removed bits at rightmost end
+    n += (shift << (32 - d));
 
-    std::cout <<    "Show:\t\t" << std::hex <<
-                    rot6 << "\n\t\t" <<
-                    rot11 << "\n\t\t" <<
-                    rot25  << std::endl;
-    std::cout  << std::hex << "=>\t\t" << x << std::dec << std::endl;
+    // Ensuring 32-bit constraint
+    return n & ((1 << 32) - 1);
 }
 
-int main(int argc, char *argv[]) {
-    (void)argv; // Suppress unused parameter warning
-    (void)argc; // Suppress unused parameter warning
 
-    uint32_t nbrs[3] = {
-        // 0x0000007F,
-        // 0x0000184F,
-        0x01343CAC,
-        0x0202E912,
-        0x26DE0C36,
-    };
+// Driver code
+int main() {
+    
+    uint32_t n = 0x7FF;
+	uint32_t r1 = 2, r2 = 13, r3 = 22;
+	
+	uint32_t res1 = rightRotate(n, r1);
+	uint32_t res2 = rightRotate(n, r2);
+	uint32_t res3 = rightRotate(n, r3);
 
-    for (uint32_t i = 0; i < 3; i++) {
-        uint32_t x = BSIG1(nbrs[i]);
-        if (!x) {std::cout << "skip(" << i << ")" << std::endl; continue; }// Skip if x is 0
-        showWork(nbrs[i], x);
-    }
+    uint32_t result = res1 | res2 | res3;
 
+    std::cout << std::hex <<
+        std::setw(10) << n << "\n\n" <<
+        std::setw(10) << res1 << "\n" <<
+        std::setw(10) << res2 << "\n" <<
+        std::setw(10) << res3 << "\n\n" <<
+        std::setw(10) << result << std::endl;    
     return 0;
 }
