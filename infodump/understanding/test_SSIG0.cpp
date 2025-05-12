@@ -49,7 +49,7 @@ void showBSIG1(uint32_t x)
 // Driver code
 int main() {
     
-    uint32_t size = 8;
+    uint32_t size = 9;
     uint32_t n[] = {
         0x0000007F,
         0x000007FF,
@@ -58,7 +58,8 @@ int main() {
         0x01343CAC,
         0x0202E912,
         0x1FFFFFFF,
-        0x26DE0C36
+        0x26DE0C36,
+        0xFFFFFFFF
     };
 
     for (uint32_t i = 0 ; i < size ; i++)

@@ -27,7 +27,7 @@ uint32_t rightRotate(uint32_t n, uint32_t d) {
 // Driver code
 int main() {
     
-    uint32_t n = 0x1FFFFFFF;
+    uint32_t n = 0x000007FF;
 	uint32_t r1 = 2, r2 = 13, r3 = 22;
 	
 	uint32_t res1 = rightRotate(n, r1);
