@@ -1,8 +1,8 @@
-#include "sha256.hpp"
 #include <gtest/gtest.h>
-#include <iostream>
 
-TEST(sha256, operations)
+#include "sha256.hpp"
+
+TEST(sha256, Rotation_func)
 {
 	// Test cases for ROTL
 	EXPECT_EQ(ROTL(0x00000000, 1), 0x00000000);		// check if 0 stays 0
@@ -29,7 +29,7 @@ TEST(sha256, operations)
 	EXPECT_EQ(ROTR(0x00000001, 32), 0x00000001);	// overflow the rotation
 }
 
-TEST(sha256, sha1_functions)
+TEST(sha256, Logical_func)
 {
 	// Test cases for Ch
 	EXPECT_EQ(Ch(0, 0, 0), 0);
@@ -52,7 +52,7 @@ TEST(sha256, sha1_functions)
 	EXPECT_EQ(Maj(1, 1, 1), 1);
 }
 
-TEST(sha256, sha256_functions)
+TEST(sha256, Sigma_func)
 {
 	// Test cases for BSIG0
 	EXPECT_EQ(BSIG0(0x00000000), 0x00000000);
