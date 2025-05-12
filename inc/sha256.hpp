@@ -1,21 +1,14 @@
 #ifndef SHA256_H
 #define SHA256_H
 
-// Big Endian notation
-// so left most byte is the most significant byte.
-
-// Block size of SHA-256 in bytes
-// 512 bits = 32-bit words * 16
-// 1024 bits = 128 bytes
-
 // Macros
 
-#define BLOCK_SIZE 512
-#define WORD_SIZE 32
+#define BLOCK_SIZE 512		// 64 bytes longz	
 
 #include <stdint.h>
-#include <stdio.h>
+#include <queue>
 
+//  -=- DEFINES -=-
 
 // Constants
 const uint32_t k_const[64] = {
@@ -43,16 +36,10 @@ const uint32_t k_const[64] = {
 #define SSIG0(x) (ROTR(x, 7) ^ ROTR(x, 18) ^ (x >> 3))
 #define SSIG1(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ (x >> 10))
 
-/*
-CH( x, y, z) = (x AND y) XOR ( (NOT x) AND z)
-MAJ( x, y, z) = (x AND y) XOR (x AND z) XOR (y AND z)
-BSIG0(x) = ROTR^2(x) XOR ROTR^13(x) XOR ROTR^22(x)
-BSIG1(x) = ROTR^6(x) XOR ROTR^11(x) XOR ROTR^25(x)
-SSIG0(x) = ROTR^7(x) XOR ROTR^18(x) XOR SHR^3(x)
-SSIG1(x) = ROTR^17(x) XOR ROTR^19(x) XOR SHR^10(x)
-*/
+//  -=- STRUCUCTS / CLASSES -=-
 
-// Function Prototypes
+//  -=- FUNCTIONS -=-
+
 int sha256(const char *str);
 
 #endif // !SHA256_H
