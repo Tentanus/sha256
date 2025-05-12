@@ -36,7 +36,8 @@ int main() {
 
     uint32_t result = res1 ^ res2 ^ res3;
 
-    std::cout << std::hex <<
+    //   std::cout << std::setiosflags (std::ios::showbase | std::ios::uppercase);
+    std::cout << std::hex << std::setiosflags (std::ios::uppercase) <<
         std::setw(10) << n << "\n\n" <<
         std::setw(10) << res1 << "\n" <<
         std::setw(10) << res2 << "\n" <<
