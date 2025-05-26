@@ -1,14 +1,18 @@
 #ifndef SHA256_H
 #define SHA256_H
 
-// Macros
-
-#define BLOCK_SIZE 512		// 64 bytes longz	
-
 #include <stdint.h>
 #include <queue>
 
+#include "MessageBlock.hpp"
+// Macros
+
+
 //  -=- DEFINES -=-
+#define FAILURE 1
+$define SUCCESS 0
+
+#define BLOCK_SIZE 512		// 64 bytes longz	
 
 // Constants
 const uint32_t k_const[64] = {
@@ -40,6 +44,10 @@ const uint32_t k_const[64] = {
 
 //  -=- FUNCTIONS -=-
 
-int sha256(const char *str);
+char *sha256(const char *str, uint64_t size);
+
+std::vector<MessageBlock> preprocessor(const char *inp, uint64_t size);
+	int writeMessageBlock(MessageBlock &block, const char *inp);
+
 
 #endif // !SHA256_H

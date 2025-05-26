@@ -39,18 +39,25 @@ a. "1" is appended.  Example: if the original message is "01010000",
 b. K "0"s are appended where K is the smallest, non-negative solution
    to the equation
       ( L + 1 + K ) mod 512 = 448
+
+
 c. Then append the 64-bit block that is L in binary representation.
    After appending this block, the length of the message will be a
    multiple of 512 bits.
    
 Example: Suppose the original message is the bit string
-ASCII   a  b  c  d  e
-HEX     61 62 63 64 65
+ASCII   a b c d  
+        e
+
+HEX     61626364 
+        65
+
 BIN     01100001 01100010 01100011 01100100
         01100101  
                                               (length: 40)
-After step (a) this gives
-        01100001 01100010 01100011 01100100 
+
+    After step (a) this gives
+BIN     01100001 01100010 01100011 01100100 
         01100101 1  
                                               (length: 41)
 

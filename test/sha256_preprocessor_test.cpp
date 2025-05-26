@@ -3,5 +3,8 @@
 #include "sha256.hpp"
 
 TEST(sha256, preprocessor) {
+    // Testing writeMessageBlock
+
+    
     
 }
