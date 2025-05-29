@@ -50,3 +50,4 @@ For more information about SHA-256:
 - [RFC 6234](https://datatracker.ietf.org/doc/html/rfc6234)
 - [NIST Publication FIPS 180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
 - [Wikipedia: SHA-2](https://en.wikipedia.org/wiki/SHA-2)
+- [Visualizer](https://sha256algorithm.com/)

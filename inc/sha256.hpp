@@ -4,15 +4,16 @@
 #include <stdint.h>
 #include <queue>
 
+// Personal Includes
 #include "MessageBlock.hpp"
-// Macros
 
+// Macros
 
 //  -=- DEFINES -=-
 #define FAILURE 1
-$define SUCCESS 0
+#define SUCCESS 0
 
-#define BLOCK_SIZE 512		// 64 bytes longz	
+#define SHA256_MESSAGE_SIZE 512		// 64 bytes long
 
 // Constants
 const uint32_t k_const[64] = {
