@@ -9,10 +9,12 @@
 // 512 bits  
 // 64 bytes  (16 x 4)
 
+#define MESSAGE_BLOCK 2
+
 class MessageBlock
 {
 private:
-    uint32_t _word[16];
+    uint32_t _word[MESSAGE_BLOCK];
 
 public:
     MessageBlock(const char *inp);
@@ -26,26 +28,42 @@ public:
 
 const uint32_t &MessageBlock::operator[](size_t idx) const
 {
-    if (idx >= 16) { std::cout << "MessageBlock Operator out of bound" << std::endl; exit(0);} 
+    if (idx >= MESSAGE_BLOCK)
+    { 
+        std::cout << 
+        "MessageBlock Operator out of bound [" << idx << "]" << std::endl; 
+        exit(0);
+    } 
     return _word[idx]; 
 }
 
-static void printBits(uint32_t word)
+static void printWordBits(uint32_t word)
 {
-    for (int j = 0; j < 8; j++)
+    for (int j = 0; j < 32; j++)
     {   
         std::cout << ((word >> (32 - j - 1)) & 1);
+        if (j % 8 == 7) std::cout << " ";
     }
-    std::cout << " ";
 }
+// static void printWordChar(uint32_t word)
+// {
+//     std::cout << "0x" << std::hex;
+//     for (int j = 0; j < 4; j++)
+//     {
+//         uint8_t byte = (word >> (24 - j * 8)) & 0xFF;
+//         std::cout <<  (int)byte << " ";
+//     }
+//     std::cout << std::dec;
+// }
 
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 {
     os << "MsgBlk\n";
-    for( size_t idx = 0 ; idx < 16 ; idx++ )
+    for( size_t idx = 0 ; idx < MESSAGE_BLOCK ; idx++ )
     {
-        printBits(block[idx]);
-        if (idx % 4 == 3) std::cout << "\n";
+        std::cout << "[" << idx << "]\t";
+        printWordBits(block[idx]);
+        std::cout << " : " << std::hex << block[idx] << std::dec << std::endl;
     }
 
     os << std::dec << std::endl;
@@ -54,13 +72,13 @@ std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 
 MessageBlock::MessageBlock(const char *inp) 
 {
-    for (int i = 0 ; i < 16 ; i++)
-    {
+    for (int i = 0 ; i < MESSAGE_BLOCK ; i++)
+    {   
         _word[i] = 0;
-        _word[i] =  ((uint32_t) inp[i    ] << 24 ) + 
-                    ((uint32_t) inp[i + 1] << 16 ) + 
-                    ((uint32_t) inp[i + 2] << 8  ) + 
-                    ((uint32_t) inp[i + 3] << 0  );
+        _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
+                    ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
+                    ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
+                    ((uint32_t) inp[(i * 4) + 3] << 0  );
     }
 }
 
