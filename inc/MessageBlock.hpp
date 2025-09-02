@@ -9,16 +9,16 @@
 // 512 bits  
 // 64 bytes  (16 x 4)
 
-#define MESSAGE_BLOCK 2
+#define WORD_BLOCKS 16
 
 class MessageBlock
 {
 private:
-    uint32_t _word[MESSAGE_BLOCK];
+    uint32_t _word[WORD_BLOCKS];
 
 public:
     MessageBlock(const char *inp);
-    MessageBlock(const MessageBlock &rhs);
+    MessageBlock(const char *inp, const uint64_t length);
     ~MessageBlock();
 
     // Utility for debuggin
@@ -28,7 +28,7 @@ public:
 
 const uint32_t &MessageBlock::operator[](size_t idx) const
 {
-    if (idx >= MESSAGE_BLOCK)
+    if (idx >= WORD_BLOCKS)
     { 
         std::cout << 
         "MessageBlock Operator out of bound [" << idx << "]" << std::endl; 
@@ -58,22 +58,23 @@ static void printWordBits(uint32_t word)
 
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 {
-    os << "MsgBlk\n";
-    for( size_t idx = 0 ; idx < MESSAGE_BLOCK ; idx++ )
+    os << "MsgBlk: \n";
+    for( size_t idx = 0 ; idx < WORD_BLOCKS ; idx++ )
     {
         std::cout << "[" << idx << "]\t";
         printWordBits(block[idx]);
-        std::cout << " : " << std::hex << block[idx] << std::dec << std::endl;
+        std::cout << ": " << std::hex << block[idx] << std::dec << std::endl;
     }
 
     os << std::dec << std::endl;
     return (os);
 }
 
-MessageBlock::MessageBlock(const char *inp) 
+MessageBlock::MessageBlock(const char *inp, const uint64_t length) 
 {
-    for (int i = 0 ; i < MESSAGE_BLOCK ; i++)
-    {   
+    (void) length;
+    for (int i = 0 ; i < WORD_BLOCKS ; i++)
+    {
         _word[i] = 0;
         _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
                     ((uint32_t) inp[(i * 4) + 1] << 16 ) + 

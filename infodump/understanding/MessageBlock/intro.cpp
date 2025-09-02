@@ -5,8 +5,11 @@ int main(int argc, char *argv[])
 {
     (void) argc;
     (void) argv;
+    const char str[] = "bbbbaaaa";
+    const uint64_t bytes = sizeof(str);
 
-    const MessageBlock block = MessageBlock("a\0a\0b\0b\0");
+    std::cout << "size: " << sizeof(str) << std::endl; // so size gives plus 1
+    const MessageBlock block = MessageBlock(str, bytes);
 
     std::cout << block << std::endl;
 }
