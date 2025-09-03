@@ -70,16 +70,45 @@ std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
     return (os);
 }
 
-MessageBlock::MessageBlock(const char *inp, const uint64_t length) 
+MessageBlock::MessageBlock(const char *inp, const uint64_t length)
 {
-    (void) length;
-    for (int i = 0 ; i < WORD_BLOCKS ; i++)
-    {
-        _word[i] = 0;
-        _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
-                    ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
-                    ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
-                    ((uint32_t) inp[(i * 4) + 3] << 0  );
+    // will this message block be fully filled
+    if (true ) //length >= 55)
+    {   // This means the block will be filled entirely
+        size_t i;
+
+        // go over each word block
+        for (i = 0 ; i < WORD_BLOCKS  ; i++)
+        {
+            // null the word
+            _word[i] =  0;
+
+            // check if this block will be filled in
+            //! This stil allows bytes after the end of the string to get filled in.
+            if ( i < (length + 3) >> 2)
+                _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
+                            ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
+                            ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
+                            ((uint32_t) inp[(i * 4) + 3] << 0  );
+        }
+        return ;
+    }
+    else
+    {   // This means the block will be the final block
+        size_t i;
+
+        // go over each word block
+        for (i = 0 ; i < WORD_BLOCKS && i < ((length + 3) >> 2) - 1 ; i++)
+        {
+            _word[i] =  0;
+            _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
+            ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
+            ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
+            ((uint32_t) inp[(i * 4) + 3] << 0  );
+        }
+
+        // make sure the rest of the MessageBlock is nulled
+        for ( ; i < WORD_BLOCKS ; i++) _word[i] = 0;
     }
 }
 
