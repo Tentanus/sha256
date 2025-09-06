@@ -18,7 +18,7 @@ private:
 
 public:
     MessageBlock(const char *inp);
-    MessageBlock(const char *inp, const uint64_t length);
+    MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
     ~MessageBlock();
 
     // Utility for debuggin
@@ -48,17 +48,6 @@ static void printWordBits(const uint32_t word)
 static void printWordHex(const uint32_t word) {
     std::cout << std::hex << word << std::dec;
 }
-// static void printWordChar(uint32_t word)
-// {
-//     std::cout << "0x" << std::hex;
-//     for (int j = 0; j < 4; j++)
-//     {
-//         uint8_t byte = (word >> (24 - j * 8)) & 0xFF;
-//         std::cout <<  (int)byte << " ";
-//     }
-//     std::cout << std::dec;
-// }
-
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 {
     os << "MsgBlk: \n";
@@ -68,16 +57,12 @@ std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
         printWordBits(block[idx]); // print word in bits
         std::cout << ": "; 
         printWordHex(block[idx]); // print word in Hex
-        // std::cout << "\t: ";
-        // printWordChar 
         std::cout << "\n";
-        
     }
-
-    return (os);
+   return (os);
 }
 
-MessageBlock::MessageBlock(const char *inp, const uint64_t length)
+MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t total)
 {
     // variable to keep track of position in input string
     size_t idx;
@@ -105,16 +90,13 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length)
     // set the terminating byte
     _word[(idx >> 2)] += (0x80 << (3 - (idx & 0x3)) * 8);
 
-    // is this the final messageblock
-    if (idx >> 2 < WORD_BLOCKS - 2) 
-        return ;// the block will be filled entirely
+    // When this is the final messageblock
+    if (idx >> 2 < WORD_BLOCKS - 2)
+    {
 
-    else
-    { // the block will be the final block
-        // todo: finalize block
-        std::cout << "we need to finalize" << std::endl;
-    
-        return ;
+        // add the total length to the final messageblock
+        _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
+        _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
     }
 }
 

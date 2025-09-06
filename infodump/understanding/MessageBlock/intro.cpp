@@ -10,16 +10,7 @@ int main(int argc, char *argv[])
     const uint64_t bytes = sizeof(str) - 1; // sizeof() gives length + 1
 
     std::cout << "size: " << sizeof(str) << std::endl;
-    const MessageBlock block = MessageBlock(str, bytes);
+    const MessageBlock block = MessageBlock(str, bytes, bytes);
 
     std::cout << block << std::endl;
 }
-
-// 0  |  3
-// 1  |  2
-// 2  |  1
-// 3  |  0
-// 4  |  3
-// 5  |  2
-// 6  |  1
-// 7  |  0
