@@ -5,12 +5,21 @@ int main(int argc, char *argv[])
 {
     (void) argc;
     (void) argv;
-    const char str[] = "babad\0a";
-    // const char str[] = "aaaabbbbccccddddaaaabbbbccccddddaaaabbbbccccddddaaaabbb";
-    // const uint64_t bytes = sizeof(str);
+    const char str[] = "babaisab";
+    // const char str[] = "aaaabbbbccccddddaaaabbbbccccddddaaaabbbbccccddddaaaabbbb";
+    const uint64_t bytes = sizeof(str) - 1; // sizeof() gives length + 1
 
-    std::cout << "size: " << sizeof(str) - 1 << std::endl;
-    const MessageBlock block = MessageBlock(str, 6);
+    std::cout << "size: " << sizeof(str) << std::endl;
+    const MessageBlock block = MessageBlock(str, bytes);
 
     std::cout << block << std::endl;
 }
+
+// 0  |  3
+// 1  |  2
+// 2  |  1
+// 3  |  0
+// 4  |  3
+// 5  |  2
+// 6  |  1
+// 7  |  0
