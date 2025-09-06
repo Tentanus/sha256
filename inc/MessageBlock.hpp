@@ -72,43 +72,30 @@ std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 
 MessageBlock::MessageBlock(const char *inp, const uint64_t length)
 {
+    size_t i;
+
+    // go over each word block
+    for (i = 0 ; i < WORD_BLOCKS  ; i++)
+    {
+        // null the word
+        _word[i] =  0;
+
+        // go over the next 4 bytes in the string
+        for (size_t idx = 0 ; idx < 4 && i * 4 + idx < length ; idx++)
+
+            // and fill the byte into the word
+            _word[i] += ((uint32_t) inp[(i * 4) + idx] << ((3 - idx) * 8));
+    }
+
     // will this message block be fully filled
-    if (true ) //length >= 55)
-    {   // This means the block will be filled entirely
-        size_t i;
-
-        // go over each word block
-        for (i = 0 ; i < WORD_BLOCKS  ; i++)
-        {
-            // null the word
-            _word[i] =  0;
-
-            // check if this block will be filled in
-            //! This stil allows bytes after the end of the string to get filled in.
-            if ( i < (length + 3) >> 2)
-                _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
-                            ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
-                            ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
-                            ((uint32_t) inp[(i * 4) + 3] << 0  );
-        }
+    if (length >= 55 ) 
+    { // the block will be filled entirely
         return ;
     }
     else
-    {   // This means the block will be the final block
-        size_t i;
-
-        // go over each word block
-        for (i = 0 ; i < WORD_BLOCKS && i < ((length + 3) >> 2) - 1 ; i++)
-        {
-            _word[i] =  0;
-            _word[i] =  ((uint32_t) inp[(i * 4)    ] << 24 ) + 
-            ((uint32_t) inp[(i * 4) + 1] << 16 ) + 
-            ((uint32_t) inp[(i * 4) + 2] << 8  ) + 
-            ((uint32_t) inp[(i * 4) + 3] << 0  );
-        }
-
-        // make sure the rest of the MessageBlock is nulled
-        for ( ; i < WORD_BLOCKS ; i++) _word[i] = 0;
+    { // the block will be the final block
+        // todo finalize the block
+        
     }
 }
 
