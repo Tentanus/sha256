@@ -26,9 +26,9 @@ std::vector<MessageBlock> preprocessor(const char *inp, const uint64_t size)
 
     for (int i = 0 ; remainingSize + 1 > 448 ;  i =+ SHA256_MESSAGE_SIZE)
     {
-        printf("");
-        MessageBlock block(&inp[i], remainingSize);
+        MessageBlock block(&inp[i], remainingSize, i);
         
         msgs.emplace_back(block);
     }
+    return msgs;
 }

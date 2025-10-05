@@ -7,4 +7,5 @@ char *sha256(const char *str, uint64_t size)
 {
     preprocessor(str, size);
 
+    return (NULL);
 }
