@@ -29,9 +29,9 @@ const uint32_t k_const[64] = {
 	0xc67178f2
 };
 
-// Operations
-#define ROTL(x, n) ((x << n) | (x >> (sizeof(x) * 8 - n)))
-#define ROTR(x, n) ((x >> n) | (x << (sizeof(x) * 8 - n)))
+// Operations (32 bits)
+#define ROTL(x, n) ((x << (n & 31)) | (x >> ((32 - (n & 31)) & 31)))
+#define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
 
 // Logical functions
 #define Ch(x, y, z) ((x & y) ^ (~x & z))

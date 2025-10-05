@@ -2,17 +2,6 @@
 #include "sha256.hpp"
 #include <string.h>
 
-//? private method in messagebock
-int validateInput(const char *inp)
-{
-    // check if is given
-    if (!inp) return FAILURE;
-
-    // go over values to see if 
-    int i = 0;
-    while (i < 16) if (inp[i++]) return FAILURE;
-}
-
 std::vector<MessageBlock> preprocessor(const char *inp, const uint64_t size)
 {
     //  [x] get length of message
