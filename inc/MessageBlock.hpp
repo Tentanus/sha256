@@ -17,6 +17,7 @@ private:
     uint32_t _word[WORD_BLOCKS];
 
 public:
+    // Constructors
     MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
     MessageBlock(const MessageBlock &rhs);
     ~MessageBlock();
