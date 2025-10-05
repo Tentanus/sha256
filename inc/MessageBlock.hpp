@@ -27,4 +27,6 @@ public:
 
 };
 
+std::ostream &operator<<(std::ostream &os, const MessageBlock &block);
+
 #endif // MESSAGE_BLOCK_HPP
