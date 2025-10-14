@@ -5,7 +5,7 @@
 MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t total)
 {
     // variable to keep track of position in input string
-    size_t idx = 0;
+    size_t lastSetBit = 0;
 
     // go over each word block
     for (size_t i = 0 ; i < WORD_BLOCKS ; i++)
@@ -17,7 +17,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t
         for (size_t j = 0 ; j < 4 && i * 4 + j < length ; j++)
         {
             // save the position in the string for later use
-            idx = i * 4 + j;
+            lastSetBit = i * 4 + j;
 
             // and fill the byte into the word
             _word[i] += ((uint32_t) inp[(i * 4) + j] << ((3 - j) * 8));
@@ -25,13 +25,13 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t
     }
 
     // go to the next posistion in the word only if we have actually moved
-    if (length) idx++;
+    if (length) lastSetBit++;
 
     // set the terminating byte
-    _word[(idx >> 2)] += (0x80 << (3 - (idx & 0x3)) * 8);
+    _word[(lastSetBit >> 2)] += (0x80 << (3 - (lastSetBit & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (idx >> 2 < WORD_BLOCKS - 2)
+    if (lastSetBit >> 2 < WORD_BLOCKS - 2)
     {
 
         // add the total length to the final messageblock

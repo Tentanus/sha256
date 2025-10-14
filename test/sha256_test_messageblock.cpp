@@ -35,6 +35,11 @@ TEST(sha256, MessageBlock_construction)
                                             0x0, 0x0, 0x0, 0x0,
                                             0x0, 0x0, 0x0, 0x0,
                                             0x0, 0x0, 0x0, 0x8 });
+    testMessageBlock("aaaa    aaaa    aaaa    aaaa    aaaa    aaaa    aaaa   ", 440, 440, 
+                        (const uint32_t[]){ 0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202080, 0x00000000, 0x000001B8 });
 }
 
 TEST(MessageBlock, OperatorOutOfBounds) {
