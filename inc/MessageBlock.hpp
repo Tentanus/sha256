@@ -20,7 +20,8 @@
  *  @param      total   const uint64_t      the the total lenght of parsed input in bytes
  * 
  *  @attention      
- *  Messageblock constructor doesn't support passing more bytes. This is undefined behaviour.
+ *  Messageblock constructor doesn't support passing more bytes than actually in the string. 
+ *  This is undefined behaviour.
  *  
  *  @author         Tentanus  
  *  @date           14-10-2025
@@ -32,10 +33,9 @@ private:
 
 public:
     // Constructors
-    MessageBlock(const char *inp, const uint64_t length, const uint64_t total); 
-    MessageBlock(const char *inp, const uint64_t total); 
+    MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
+    MessageBlock(const char *inp, const uint64_t total);
     // todo: we should pass the length in bits not bytes.
-    // 
     // ? Is it possible to do all this with just one block?
     // ? and just have an array of ints that we can do stuff with.
     MessageBlock(const MessageBlock &rhs);

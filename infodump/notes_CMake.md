@@ -78,7 +78,7 @@ Force all .cpp files to be rebuilt and relinked:
 ## Understanding my own code
 ### Understanding MessageBlock
 ``` bash
-  $> clang++ -I inc infodump/understandingMessageBlock/intro.cpp && ./a.out
+  $> clang++ -I inc infodump/understanding/MessageBlock/intro.cpp src/MessageBlock.cpp && ./a.out
 ```
 
 ### show bits in Operators 

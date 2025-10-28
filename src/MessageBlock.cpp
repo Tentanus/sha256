@@ -29,7 +29,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
             lastSetByte = wordIndex * 4 + wordSubIndex;
 
             // and fill the byte into the word
-            _word[wordIndex] += ((uint32_t) inp[(wordIndex * 4) + wordSubIndex] << ((wordSubIndex - 3) * 8));
+            _word[wordIndex] += ((uint32_t) inp[(wordIndex * 4) + wordSubIndex] << ((3 - wordSubIndex ) * 8));
         }
     }
 
@@ -58,11 +58,12 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
  */
 MessageBlock::MessageBlock(const char *inp, const uint64_t total)
 {
+    // return if we don't even have an input string
+    // ? make an exception for this
+    if (!inp) return ;
+
     // variable to keep track of position in input string
     size_t  lastSetByte = 0;
-
-    // return if we don't even have an input string
-    if (!inp) return ;
 
     // go over each word block
     for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
@@ -71,24 +72,21 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
         _word[wordIndex] = 0;
      
         // skip setting bytes is we don't have a string
-        // ? make an exception for this
         if (inp[lastSetByte] == '\0') continue;
         
         // go over the next 4 bytes in the string
         for (lastSetByte = wordIndex * 4 ; lastSetByte < (wordIndex * 4 + 4) ; lastSetByte++)
         {
             // and fill the byte into the word
-            _word[wordIndex] += ((uint32_t) inp[lastSetByte] << (((lastSetByte & 0x3) - 3) * 8));
+            _word[wordIndex] += ((uint32_t) inp[lastSetByte] << ((3 -(lastSetByte & 0x3)) * 8));
 
+            std::cout << "lastsetByte: " << lastSetByte << std::endl;
             if (inp[lastSetByte] == '\0') break;
         }
     }
 
     // check if we have even set any bytes
     if (!lastSetByte) return ;
-
-    // go to the next posistion
-    lastSetByte++;
 
     // set the terminating byte
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
