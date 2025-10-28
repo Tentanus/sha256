@@ -2,36 +2,45 @@
 
 // --------------------   Constructors   --------------------   
 
-MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t total)
+/**
+ *  Constructor
+ *  This constructor parses the input string into messageblocks of 512 bits long,,
+ *  skipping null terminators
+ *  
+ *  @param  inp     const char *        C-str with to be hashed info (this could contain '\0')
+ *  @param  lenght  const uint64_t      Amount of bytes of the string to hash
+ *  @param  total   const uint64_t      Total amount of bits that has been hashed
+ */
+MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_t total)
 {
     // variable to keep track of position in input string
-    size_t lastSetBit = 0;
+    size_t lastSetByte = 0;
 
     // go over each word block
-    for (size_t i = 0 ; i < WORD_BLOCKS ; i++)
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
     {
         // null the word block
-        _word[i] = 0;
+        _word[wordIndex] = 0;
 
         // go over the next 4 bytes in the string
-        for (size_t j = 0 ; j < 4 && i * 4 + j < length ; j++)
+        for (size_t wordSubIndex = 0 ; wordSubIndex < 4 && wordIndex * 4 + wordSubIndex < length ; wordSubIndex++)
         {
             // save the position in the string for later use
-            lastSetBit = i * 4 + j;
+            lastSetByte = wordIndex * 4 + wordSubIndex;
 
             // and fill the byte into the word
-            _word[i] += ((uint32_t) inp[(i * 4) + j] << ((3 - j) * 8));
+            _word[wordIndex] += ((uint32_t) inp[(wordIndex * 4) + wordSubIndex] << ((wordSubIndex - 3) * 8));
         }
     }
 
     // go to the next posistion in the word only if we have actually moved
-    if (length) lastSetBit++;
+    if (length) lastSetByte++;
 
     // set the terminating byte
-    _word[(lastSetBit >> 2)] += (0x80 << (3 - (lastSetBit & 0x3)) * 8);
+    _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (lastSetBit >> 2 < WORD_BLOCKS - 2)
+    if (lastSetByte >> 2 < WORD_BLOCKS - 2)
     {
 
         // add the total length to the final messageblock
@@ -39,6 +48,61 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length,const uint64_t
         _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
     }
 }
+
+/**
+ *  Constructor
+ *  This constructor parses the input and terminates at a null terminator
+ *  
+ *  @param  inp     const char *        C-str with to be hashed info
+ *  @param  total   const uint64_t      Total amount of bits that has been hashed
+ */
+MessageBlock::MessageBlock(const char *inp, const uint64_t total)
+{
+    // variable to keep track of position in input string
+    size_t  lastSetByte = 0;
+
+    // return if we don't even have an input string
+    if (!inp) return ;
+
+    // go over each word block
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
+    {
+        // null the word block
+        _word[wordIndex] = 0;
+     
+        // skip setting bytes is we don't have a string
+        // ? make an exception for this
+        if (inp[lastSetByte] == '\0') continue;
+        
+        // go over the next 4 bytes in the string
+        for (lastSetByte = wordIndex * 4 ; lastSetByte < (wordIndex * 4 + 4) ; lastSetByte++)
+        {
+            // and fill the byte into the word
+            _word[wordIndex] += ((uint32_t) inp[lastSetByte] << (((lastSetByte & 0x3) - 3) * 8));
+
+            if (inp[lastSetByte] == '\0') break;
+        }
+    }
+
+    // check if we have even set any bytes
+    if (!lastSetByte) return ;
+
+    // go to the next posistion
+    lastSetByte++;
+
+    // set the terminating byte
+    _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
+
+    // When this is the final messageblock
+    if (lastSetByte >> 2 < WORD_BLOCKS - 2)
+    {
+
+        // add the total length to the final messageblock
+        _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
+        _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
+    }
+}
+
 
 MessageBlock::~MessageBlock() 
 {

@@ -33,6 +33,7 @@ private:
 public:
     // Constructors
     MessageBlock(const char *inp, const uint64_t length, const uint64_t total); 
+    MessageBlock(const char *inp, const uint64_t total); 
     // todo: we should pass the length in bits not bytes.
     // 
     // ? Is it possible to do all this with just one block?
