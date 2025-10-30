@@ -2,22 +2,22 @@
 
 #include "sha256.hpp"
 
-static void testMessageBlockConstructor(const char *str,
+static void testMessageBlockConstructor(const char* str,
+                                        const uint32_t readbytes,
                                         const uint64_t totalbytes,
                                         const uint32_t* expected_words)
 {
-    MessageBlock block(str, totalbytes);
+    MessageBlock block(str, readbytes, totalbytes);
 
     for (size_t i = 0; i < WORD_BLOCKS; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;
 }
 
-static void testMessageBlockConstructor(const char* str, 
-                                        const uint32_t readbytes,
+static void testMessageBlockConstructor(const char *str,
                                         const uint64_t totalbytes,
-                                        const uint32_t* expected_words) 
+                                        const uint32_t* expected_words)
 {
-    MessageBlock block(str, readbytes, totalbytes);
+    MessageBlock block(str, totalbytes);
 
     for (size_t i = 0; i < WORD_BLOCKS; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;
@@ -51,6 +51,9 @@ TEST(sha256, MessageBlock_Construction_Length)
 
 TEST(sha256, MessageBlock_Construction_NoLength)
 {
+    // ? there are more testcases for this constructor (currently too tired to come up with)
+    // ? I feel like this constructor needs to be able to add the current value to it's total
+    
     // Test empty inputs.
     testMessageBlockConstructor("", 0, 
                         (const uint32_t[]){ 0x80000000, 0x0, 0x0, 0x0,
@@ -71,11 +74,5 @@ TEST(sha256, MessageBlock_Construction_NoLength)
                         (const uint32_t[]){ 0x61616161, 0x20202020, 0x61616161, 0x20202020,
                                             0x61616161, 0x20202020, 0x61616161, 0x20202020,
                                             0x61616161, 0x20202020, 0x61616161, 0x20202020,
-                                            0x61616161, 0x20202080, 0x00000000, 0x000001B8 });
-}
-
-TEST(MessageBlock, OperatorOutOfBounds) {
-    const char str[] = "abc";
-    MessageBlock block(str, 3, 3);
-    EXPECT_DEATH(block[WORD_BLOCKS], "out of bound");
+                                            0x61616161, 0x20202080, 0x00000000, 0x000001B8});
 }

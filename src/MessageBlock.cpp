@@ -52,18 +52,17 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
 /**
  *  Constructor
  *  This constructor parses the input and terminates at a null terminator
+ *  ! This will segfault when passing a NULL pointer
  *  
- *  @param  inp     const char *        C-str with to be hashed info
- *  @param  total   const uint64_t      Total amount of bits that has been hashed
+ *  @param  inp     C-str with to be hashed info (const char *)
+ *  @param  total   Total amount of bits that has been hashed (const uint64_t)
+ *
+ * ? I'm not sure how you would use this and know when the constructor has had it's final block.
  */
 MessageBlock::MessageBlock(const char *inp, const uint64_t total)
 {
-    // return if we don't even have an input string
-    // ? make an exception for this
-    if (!inp) return ;
-
     // variable to keep track of position in input string
-    size_t  lastSetByte = 0;
+    size_t lastSetByte = 0;
 
     // go over each word block
     for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
@@ -80,13 +79,9 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
             // and fill the byte into the word
             _word[wordIndex] += ((uint32_t) inp[lastSetByte] << ((3 -(lastSetByte & 0x3)) * 8));
 
-            std::cout << "lastsetByte: " << lastSetByte << std::endl;
             if (inp[lastSetByte] == '\0') break;
         }
     }
-
-    // check if we have even set any bytes
-    if (!lastSetByte) return ;
 
     // set the terminating byte
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
