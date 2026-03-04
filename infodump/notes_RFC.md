@@ -57,24 +57,29 @@ BIN     01100001 01100010 01100011 01100100
                                               (length: 40)
 
     After step (a) this gives
+
 BIN     01100001 01100010 01100011 01100100 
         01100101 1  
                                               (length: 41)
 
 
 Since L = 40, the number of bits in the above is 41 and K = 407
-"0"s are appended, making the total now 448.  This gives the
+"0"s are appended, making the total now 448. This gives the
 following in hex:
 
-HEX     61626364 65000000 00000000 00000000   128
+HEX     61626364 65800000 00000000 00000000   128
         00000000 00000000 00000000 00000000   256
         00000000 00000000 00000000 00000000   384
         00000000 00000000                     512
 
-    The 64-bit representation of L = 40 is hex 00000000 00000028.
-    Hence the final padded message is the following hex
+Keep in mind the terminating bit at the end shows up as an 8 at the end.
+
+The 64-bit representation of L = 40 is hex 00000000 00000028.
+Hence the final padded message is the following hex
 
 HEX     61626364 65800000 00000000 00000000   128
         00000000 00000000 00000000 00000000   256
         00000000 00000000 00000000 00000000   384
         00000000 00000000 00000000 00000028   512
+
+

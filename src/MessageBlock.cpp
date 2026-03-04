@@ -4,8 +4,9 @@
 
 /**
  *  Constructor
- *  This constructor parses the input string into messageblocks of 512 bits long,,
+ *  This constructor parses the input string into messageblocks of 512 bits long,
  *  skipping null terminators
+ *  ! This will segfault when passing a NULL pointer
  *  
  *  @param  inp     const char *        C-str with to be hashed info (this could contain '\0')
  *  @param  lenght  const uint64_t      Amount of bytes of the string to hash
