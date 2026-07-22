@@ -29,26 +29,30 @@ const uint32_t k_const[64] = {
 	0xc67178f2
 };
 
-// Operations (32 bits)
-#define ROTL(x, n) ((x << (n & 31)) | (x >> ((32 - (n & 31)) & 31)))
-#define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
-
-// Logical functions
-#define Ch(x, y, z) ((x & y) ^ (~x & z))
-#define Maj(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
-#define BSIG0(x) (ROTR(x, 2) ^ ROTR(x, 13) ^ ROTR(x, 22))
-#define BSIG1(x) (ROTR(x, 6) ^ ROTR(x, 11) ^ ROTR(x, 25))
-#define SSIG0(x) (ROTR(x, 7) ^ ROTR(x, 18) ^ (x >> 3))
-#define SSIG1(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ (x >> 10))
-
-//  -=- STRUCUCTS / CLASSES -=-
-
-//  -=- FUNCTIONS -=-
-
-char *sha256(const char *str, uint64_t size);
-
-std::vector<MessageBlock> preprocessor(const char *inp, uint64_t size);
+class sha256
+{
+	// Operations (32 bits)
+	#define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
+	
+	// Logical functions
+	#define Ch(x, y, z) ((x & y) ^ (~x & z))
+	#define Maj(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
+	#define BSIG0(x) (ROTR(x, 2) ^ ROTR(x, 13) ^ ROTR(x, 22))
+	#define BSIG1(x) (ROTR(x, 6) ^ ROTR(x, 11) ^ ROTR(x, 25))
+	#define SSIG0(x) (ROTR(x, 7) ^ ROTR(x, 18) ^ (x >> 3))
+	#define SSIG1(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ (x >> 10))
+	
+	//  -=- VARIABLES -=-
+	
+	//  -=- STRUCUCTS / CLASSES -=-
+	
+	//  -=- FUNCTIONS -=-
+	MessageBlock getMessageblock(const char *str, uint64_t &size);
+	
+	std::vector<MessageBlock> preprocessor(const char *inp, uint64_t size);
 	int writeMessageBlock(MessageBlock &block, const char *inp);
+
+}
 
 
 #endif // !SHA256_H

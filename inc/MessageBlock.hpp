@@ -33,19 +33,21 @@ private:
 
 public:
     // Constructors
+    //TODO: Get functioning implementations for when we want
     MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
     MessageBlock(const char *inp, const uint64_t total);
-    // todo: we should pass the length in bits not bytes.
-    // ? Is it possible to do all this with just one block?
-    // ? and just have an array of ints that we can do stuff with.
+    //TODO: we should pass the length in bits not bytes.
+    //? Is it possible to just have an array of ints that we can do stuff with.
+
     MessageBlock(const MessageBlock &rhs);
     ~MessageBlock();
 
-    // Utility for debuggin
+    // Utility for debugging
     const uint32_t &operator[](size_t idx) const;
 
 };
 
+// Utility for debugging
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block);
 
 #endif // MESSAGE_BLOCK_HPP

@@ -10,7 +10,7 @@ build: $(SRC) $(TESTSRC)
 	@cmake --build build
 
 test: build
-	cd ./build/test && ctest -V
+	cd ./build/test && ctest -V && ...
 
 clean:
 	rm -rf build

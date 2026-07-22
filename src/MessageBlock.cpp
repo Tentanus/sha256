@@ -43,7 +43,6 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
     // When this is the final messageblock
     if (lastSetByte >> 2 < WORD_BLOCKS - 2)
     {
-
         // add the total length to the final messageblock
         _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
         _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(Gtest
   VERSION 1.0
-  DESCRIPTION "A simple factorial project to get familiar with GoogleTest"
+  DESCRIPTION "A SHA256 projecct to get familiar with GoogleTest"
   LANGUAGES CXX
 )
 

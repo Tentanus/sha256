@@ -4,18 +4,6 @@
 
 TEST(sha256, Rotation_func)
 {
-	// Test cases for ROTL
-	EXPECT_EQ(ROTL(0x00000000u, 1), 0x00000000u);		// check if 0 stays 0
-	EXPECT_EQ(ROTL(0xFFFFFFFFu, 1), 0xFFFFFFFFu);		// check if -1 stays -1
-	EXPECT_EQ(ROTL(0xFFFFFFFFu, 20), 0xFFFFFFFFu);		// check if -1 stays -1
-	EXPECT_EQ(ROTL(0x00000001u, 1), 0x00000002u);		// standard check
-	EXPECT_EQ(ROTL(0x40000000u, 1), 0x80000000u);		// standard check higher value
-
-	EXPECT_EQ(ROTL(0x80000000u, 1), 0x00000001u);		// overflow the input
-	EXPECT_EQ(ROTL(0x55555555u, 1), 0xAAAAAAAAu);		// overflow the input
-
-	EXPECT_EQ(ROTL(0x00000001u, 32), 0x00000001u);		// overflow the rotation
-
 	// Test cases for ROTR
 	EXPECT_EQ(ROTR(0x00000000u, 1), 0x00000000u);		// check if 0 stays 0
 	EXPECT_EQ(ROTR(0xFFFFFFFFu, 1), 0xFFFFFFFFu);		// check if -1 stays -1

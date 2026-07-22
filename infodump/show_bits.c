@@ -34,8 +34,8 @@ int main(int argc, char **argv)
 	{
 		printf("bits[%d]\t\t", i);
 		printBits(&bits[i], 1);
-		printf("\t%d\n  ROTL(1):\t", bits[i]);\
-		int32_t arr[3] = {	ROTL(bits[i], 1), 
+		printf("\t%d\n  ROTR(1):\t", bits[i]);\
+		int32_t arr[3] = {	ROTR(bits[i], 1), 
 							(bits[i] << 1), 
 							(bits[i] >> (sizeof(bits[i]) * 8 - 1))
 						};
