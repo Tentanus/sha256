@@ -6,3 +6,6 @@ build/
 
 # VSCODE
 .vscode/
+
+# Infodump
+infodump/
