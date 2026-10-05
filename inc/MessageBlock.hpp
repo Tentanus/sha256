@@ -33,11 +33,10 @@ private:
 
 public:
     // Constructors
-    //TODO: Get functioning implementations for when we want
     MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
     MessageBlock(const char *inp, const uint64_t total);
     //TODO: we should pass the length in bits not bytes.
-    //? Is it possible to just have an array of ints that we can do stuff with.
+    //? Is it possible to just have an array of ints that are the MessageBlocks.
 
     MessageBlock(const MessageBlock &rhs);
     ~MessageBlock();
@@ -50,4 +49,4 @@ public:
 // Utility for debugging
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block);
 
-#endif // MESSAGE_BLOCK_HPP
+#endif // !MESSAGE_BLOCK_HPP

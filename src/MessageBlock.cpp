@@ -96,6 +96,13 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
     }
 }
 
+MessageBlock::MessageBlock(const MessageBlock &rhs)
+{
+    for (size_t i = 0 ; i < WORD_BLOCKS ; ++i)
+    {
+        _word[i] = rhs._word[i];
+    }
+}
 
 MessageBlock::~MessageBlock() 
 {

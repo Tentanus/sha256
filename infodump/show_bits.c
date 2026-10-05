@@ -3,16 +3,47 @@
 #include <stdint.h>
 #include <iostream>
 
-void printBits(int32_t *bits, int size)
+void printBits(int16_t *bits, int arrayLength)
 {
-	for (int i = 0; i < size; i++)
+	int dataSize = sizeof(typeof(bits[0])) * 4;
+
+	for (int i = 0; i < arrayLength; i++)
 	{
-		for (int j = 0; j < 32; j++)
+		std::cout << "\n\t";
+		for (int j = 0; j < dataSize; j++)
 		{
-			printf("%d", (bits[i] >> (32 - j - 1)) & 1);
+			printf("%d", (bits[i] >> (dataSize - j - 1)) & 1);
 		}
-		printf("\n\t\t");
 	}
+	std::cout << std::endl;
+}
+
+void showCh(int16_t x, int16_t y, int16_t z)
+{
+	std::cout << "\n\nshow Choice";
+	int16_t invx = ~x;
+	int16_t Choice = Ch(x, y, y);
+	
+	printBits(&x, 1);
+	printBits(&y, 1); std::cout << " &\n";
+	std::cout << "----------------------------------";
+	int16_t A = (x & y);
+	printBits(&A, 1);
+	std::cout << "\n\n";
+
+	
+	printBits(&invx, 1);
+	printBits(&y, 1); std::cout << " &\n";
+	std::cout << "----------------------------------";
+	int16_t B = (~x & z);
+	printBits(&B, 1);
+	std::cout << "\n\n";
+
+	printBits(&A, 1);
+	printBits(&B, 1);
+	std::cout << "\n----------------------------------";
+	printBits(&Choice, 1);
+	std::cout << "\n";
 }
 
 int main(int argc, char **argv)
@@ -20,28 +51,26 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	#define ARR_SIZE 7
-	int32_t bits[ARR_SIZE] = {	static_cast<int32_t>(0x00000000), // 0
-							   	static_cast<int32_t>(0x00000001), // 1
-							   	static_cast<int32_t>(0x40000000), // 1073741824
-							   	static_cast<int32_t>(0x80000000), // -2147483648
-							   	static_cast<int32_t>(0x7FFFFFFF), // 2147483647
-							   	static_cast<int32_t>(0xAAAAAAAA), // -1431655766
-							   	static_cast<int32_t>(0xFFFFFFFF)  // -1
-								};
+	#define ARR_SIZE 4
+	int16_t bits[ARR_SIZE] = {
+							static_cast<int16_t>(0x8F),
+							static_cast<int16_t>(0x55),
+							static_cast<int16_t>(0xAA),
+							static_cast<int16_t>(0x00),
+							};
+	
+	// std::cout << "bits[" << i << "]\tsize: " << sizeof(typeof(bits[i])) << " bytes\n";
+	printBits(bits, ARR_SIZE);
+	// std::cout << "\n";
 
-	for (int i = 0; i < ARR_SIZE; i++)
-	{
-		printf("bits[%d]\t\t", i);
-		printBits(&bits[i], 1);
-		printf("\t%d\n  ROTR(1):\t", bits[i]);\
-		int32_t arr[3] = {	ROTR(bits[i], 1), 
-							(bits[i] << 1), 
-							(bits[i] >> (sizeof(bits[i]) * 8 - 1))
-						};
-		printBits(arr, 3);
-		printf("\t%d\n", arr[1]);
-	}
+	// printBits(&bits[i], 1);
+
+	// showCh(bits[0], bits[1], bits[2]);
+	int16_t res = Ch(bits[0], bits[1], bits[2]);
+	std::cout << "result: ";
+	printBits(&res, 1);
+
+	std::cout << std::endl;
 
 
 	return 0;
