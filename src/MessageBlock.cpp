@@ -7,13 +7,18 @@
  *  This constructor parses the input string into messageblocks of 512 bits long,
  *  skipping null terminators
  *  ! This will segfault when passing a NULL pointer
+ * 
+ *  TODO: we should pass the length in bits not bytes. I'm wondering if this is easily
+ * -done.
+ *  TODO: Add Exceptions for issues like, NULL input or other possible issues
  *  
  *  @param  inp     const char *        C-str with to be hashed info (this could contain '\0')
- *  @param  lenght  const uint64_t      Amount of bytes of the string to hash
+ *  @param  length  const uint64_t      Amount of bytes of the string to hash
  *  @param  total   const uint64_t      Total amount of bits that has been hashed
  */
 MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_t total)
 {
+
     // variable to keep track of position in input string
     size_t lastSetByte = 0;
 

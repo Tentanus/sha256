@@ -17,7 +17,6 @@
 
 class sha256
 {
-	
 	// Constants
 	const uint32_t k_const[64] = {
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
@@ -48,10 +47,10 @@ class sha256
 	//  -=- STRUCUCTS / CLASSES -=-
 	
 	//  -=- FUNCTIONS -=-
-	MessageBlock getMessageblock(const char *str, uint64_t &size);
-
-	int writeMessageBlock(MessageBlock &block, const char *inp);
+	MessageBlock 	getMessageblock(const char *str, uint64_t &size);
+	int 			writeMessageBlock(MessageBlock &block, const char *inp);
 };
+
 std::vector<MessageBlock> preprocessor(const char *inp, const uint64_t size);
 
 

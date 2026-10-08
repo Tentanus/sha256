@@ -30,12 +30,10 @@ class MessageBlock
 {
 private:
     uint32_t _word[WORD_BLOCKS];
-
 public:
     // Constructors
     MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
     MessageBlock(const char *inp, const uint64_t total);
-    //TODO: we should pass the length in bits not bytes.
     //? Is it possible to just have an array of ints that are the MessageBlocks.
 
     MessageBlock(const MessageBlock &rhs);

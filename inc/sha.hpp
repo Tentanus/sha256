@@ -2,7 +2,6 @@
 #define SHA_H
 
 #include <stdint.h>
-#include <queue>
 
 // Personal Includes
 
