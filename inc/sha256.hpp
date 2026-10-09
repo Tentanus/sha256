@@ -16,6 +16,7 @@
 #define SUCCESS 0
 
 #define SHA256_MESSAGE_SIZE 512	// bits     64 bytes long
+#define SCHEDULE_SIZE 64		// Word blocks in Schedule
 
 class sha256
 {
@@ -38,7 +39,7 @@ class sha256
 	/** 
 	 *  
 	 */
-	const uint32_t initial_const[8] = {
+	const uint32_t f_const[8] = {
 		0x6a09e667,
     	0xbb67ae85,
     	0x3c6ef372,
@@ -66,6 +67,8 @@ class sha256
 	
 	//  -=- FUNCTIONS -=-
 
+	static void setupSchedule(uint32_t* W, MessageBlock& block);
+	
 	static const std::string 	process(std::vector<MessageBlock> blocks);
 	MessageBlock 				getMessageblock(const char *str, uint64_t &size);
 	int 						writeMessageBlock(MessageBlock &block, const char *inp);

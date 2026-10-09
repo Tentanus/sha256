@@ -1,13 +1,20 @@
 #include "sha256.hpp"
 
+void sha256::setupSchedule(uint32_t* W, MessageBlock& block)
+{
+    for (size_t i = 0; i < SCHEDULE_SIZE ; i++)
+        W[i] = 0x00000000;
+    block.setupSchedule(W);
+}
+
 const std::string sha256::process(std::vector<MessageBlock> input)
 {
-    uint32_t W[64];
+    uint32_t W[SCHEDULE_SIZE];
+    uint32_t a,b,c,d,e,f,g,h;
 
     for (MessageBlock &block : input)
     {
-        block.setupSchedule(W);
-        
+        setupSchedule(W, block);
     }
 }
 
