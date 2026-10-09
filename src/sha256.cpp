@@ -1,7 +1,15 @@
-#include <cstdint>
-#include <stdio.h>
-
 #include "sha256.hpp"
+
+const std::string sha256::process(std::vector<MessageBlock> input)
+{
+    uint32_t W[64];
+
+    for (MessageBlock &block : input)
+    {
+        block.setupSchedule(W);
+        
+    }
+}
 
 void showBlocks(std::vector<MessageBlock> list)
 {

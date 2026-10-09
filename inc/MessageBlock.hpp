@@ -28,20 +28,22 @@
  */
 class MessageBlock
 {
-private:
-    uint32_t _word[WORD_BLOCKS];
-public:
-    // Constructors
-    MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
-    MessageBlock(const char *inp, const uint64_t total);
-    //? Is it possible to just have an array of ints that are the MessageBlocks.
+    private:
+        uint32_t _word[WORD_BLOCKS];
 
-    MessageBlock(const MessageBlock &rhs);
-    ~MessageBlock();
+    public:
+        // Constructors
+        MessageBlock(const char *inp, const uint64_t length, const uint64_t total);
+        MessageBlock(const char *inp, const uint64_t total);
+        //? Is it possible to just have an array of ints that are the MessageBlocks.
 
-    // Utility for debugging
-    const uint32_t &operator[](size_t idx) const;
+        MessageBlock(const MessageBlock &rhs);
+        ~MessageBlock();
 
+        void setupSchedule(uint32_t *W);
+
+        // Utility for debugging
+        const uint32_t &operator[](size_t idx) const;
 };
 
 // Utility for debugging

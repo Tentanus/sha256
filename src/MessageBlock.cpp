@@ -114,6 +114,14 @@ MessageBlock::~MessageBlock()
 
 }
 
+// --------------------     Methods     --------------------   
+
+void MessageBlock::setupSchedule(uint32_t *W)
+{
+    for (size_t i = 0 ; i < WORD_BLOCKS ; i++)
+        W[i] = _word[i];
+}
+
 // --------------------    Operators    --------------------   
 
 const uint32_t &MessageBlock::operator[](size_t idx) const
