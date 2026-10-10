@@ -74,7 +74,5 @@ class sha256
 	int 						writeMessageBlock(MessageBlock &block, const char *inp);
 };
 
-std::vector<MessageBlock> preprocessor(const char *inp, const uint64_t size);
-
 
 #endif // !SHA256_H

@@ -11,7 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(sha
   src/sha256.cpp
-  src/preprocessor.cpp
   src/MessageBlock.cpp
 )
 
