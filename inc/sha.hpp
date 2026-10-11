@@ -5,6 +5,5 @@
 
 // Personal Includes
 
-char *sha256(const char *str, uint64_t size);
 
 #endif // !SHA_H

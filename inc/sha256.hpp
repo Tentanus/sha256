@@ -1,28 +1,35 @@
 #ifndef SHA256_H
 #define SHA256_H
 
+// Personal Includes
 #include <stdint.h>
 #include <stdio.h>
 #include <vector>
+#include <string>
 #include <cstdint>
 
 // Personal Includes
 #include "MessageBlock.hpp"
 
-// Macros
-
 //  -=- DEFINES -=-
+//  TODO: Move default defines to shared internal header
 #define FAILURE 1
 #define SUCCESS 0
 
-#define SHA256_MESSAGE_SIZE 512	// bits     64 bytes long
-#define SCHEDULE_SIZE 64		// Word blocks in Schedule
+#define SHA256_MESSAGE_SIZE 512		// bits     64 bytes long
+#define SHA256_SCHEDULE_SIZE 64		// Word blocks in schedule
 
+// TODO: concidere changing it to a namespace since there
+// -     is no instance needed of this sha256 object.
 class sha256
 {
 	public:
+	static const std::string hash(const char *str, uint64_t size);
+
+	private:
+	//  -=- VARIABLES -=-
 	// Constants
-	const uint32_t k_const[64] = {
+	static constexpr uint32_t k_const[64] = {
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
 		0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
 		0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
@@ -34,10 +41,8 @@ class sha256
 		0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
 		0xc67178f2
 	};
-	
-	private:
-	// Constants
-	const uint32_t f_const[8] = {
+
+	static constexpr uint32_t f_const[8] = {
 		0x6a09e667,
 		0xbb67ae85,
 		0x3c6ef372,
@@ -48,6 +53,7 @@ class sha256
 		0x5be0cd19,
 	};
 
+	//  -=- DEFINES -=-
 	// Operations (32 bits)
 	#define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
 	
@@ -58,19 +64,13 @@ class sha256
 	#define BSIG1(x) (ROTR(x, 6) ^ ROTR(x, 11) ^ ROTR(x, 25))
 	#define SSIG0(x) (ROTR(x, 7) ^ ROTR(x, 18) ^ (x >> 3))
 	#define SSIG1(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ (x >> 10))
-	
-	//  -=- VARIABLES -=-
-	
-	//  -=- STRUCUCTS / CLASSES -=-
-	
-	//  -=- FUNCTIONS -=-
 
-	static void setupSchedule(uint32_t* W, MessageBlock& block);
-	
+	//  -=- FUNCTIONS -=-
+	static void 				setupSchedule(uint32_t* W, MessageBlock& block);
 	static const std::string 	process(std::vector<MessageBlock> blocks);
+
 	MessageBlock 				getMessageblock(const char *str, uint64_t &size);
 	int 						writeMessageBlock(MessageBlock &block, const char *inp);
 };
-
 
 #endif // !SHA256_H
