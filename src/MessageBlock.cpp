@@ -22,15 +22,15 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
     // variable to keep track of position in input string
     size_t lastSetByte = 0;
 
-    // go over each word block
-    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
-    {
+    // go over each word blocks in the MessageBlock
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++) {
+
         // null the word block
         _word[wordIndex] = 0;
 
-        // go over the next 4 bytes in the string
-        for (size_t wordSubIndex = 0 ; wordSubIndex < 4 && wordIndex * 4 + wordSubIndex < length ; wordSubIndex++)
-        {
+        // go over the next 4 bytes/character and add them to the next word blocks
+        for (size_t wordSubIndex = 0 ; wordSubIndex < 4 && wordIndex * 4 + wordSubIndex < length ; wordSubIndex++) {
+
             // save the position in the string for later use
             lastSetByte = wordIndex * 4 + wordSubIndex;
 
@@ -46,8 +46,8 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (lastSetByte >> 2 < WORD_BLOCKS - 2)
-    {
+    if (lastSetByte >> 2 < WORD_BLOCKS - 2) {
+    
         // add the total length to the final messageblock
         _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
         _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
@@ -70,17 +70,17 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
     size_t lastSetByte = 0;
 
     // go over each word block
-    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++)
-    {
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++) {
+
         // null the word block
         _word[wordIndex] = 0;
-     
+
         // skip setting bytes is we don't have a string
         if (inp[lastSetByte] == '\0') continue;
-        
+
         // go over the next 4 bytes in the string
-        for (lastSetByte = wordIndex * 4 ; lastSetByte < (wordIndex * 4 + 4) ; lastSetByte++)
-        {
+        for (lastSetByte = wordIndex * 4 ; lastSetByte < (wordIndex * 4 + 4) ; lastSetByte++) {
+
             // and fill the byte into the word
             _word[wordIndex] += ((uint32_t) inp[lastSetByte] << ((3 -(lastSetByte & 0x3)) * 8));
 
@@ -92,8 +92,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (lastSetByte >> 2 < WORD_BLOCKS - 2)
-    {
+    if (lastSetByte >> 2 < WORD_BLOCKS - 2) {
 
         // add the total length to the final messageblock
         _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
@@ -104,9 +103,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
 MessageBlock::MessageBlock(const MessageBlock &rhs)
 {
     for (size_t i = 0 ; i < WORD_BLOCKS ; ++i)
-    {
         _word[i] = rhs._word[i];
-    }
 }
 
 MessageBlock::~MessageBlock() 
@@ -126,8 +123,9 @@ void MessageBlock::setupSchedule(uint32_t *W)
 
 const uint32_t &MessageBlock::operator[](size_t idx) const
 {
-    if (idx >= WORD_BLOCKS)
-    { 
+    if (idx >= WORD_BLOCKS)  {
+
+        // TODO: convert this to an Exception that can be thrown?
         std::cerr << 
         "MessageBlock Operator out of bound [" << idx << "]" << std::endl; 
         exit(1);
@@ -137,8 +135,8 @@ const uint32_t &MessageBlock::operator[](size_t idx) const
 
 static void printWordBits(const uint32_t word)
 {
-    for (int j = 0; j < 32; j++)
-    {   
+    for (int j = 0; j < 32; j++) {
+
         std::cout << ((word >> (32 - j - 1)) & 1);
         if (j % 8 == 7) std::cout << " ";
     }
@@ -146,10 +144,11 @@ static void printWordBits(const uint32_t word)
 static void printWordHex(const uint32_t word) {
     std::cout << std::hex << word << std::dec;
 }
+
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 {
     os << "MsgBlk: \n";
-    for( size_t idx = 0 ; idx < WORD_BLOCKS ; idx++ )
+    for( size_t idx = 0 ; idx < WORD_BLOCKS ; idx++ ) 
     {
         std::cout << "[" << idx << "]\t";
         printWordBits(block[idx]); // print word in bits

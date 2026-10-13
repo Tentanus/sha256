@@ -16,17 +16,12 @@
 #define FAILURE 1
 #define SUCCESS 0
 
-#define SHA256_MESSAGE_SIZE 512		// bits     64 bytes long
-#define SHA256_SCHEDULE_SIZE 64		// Word blocks in schedule
-
 // TODO: concidere changing it to a namespace since there
 // -     is no instance needed of this sha256 object.
-class sha256
+namespace sha256
 {
-	public:
 	static const std::string hash(const char *str, uint64_t size);
 
-	private:
 	//  -=- VARIABLES -=-
 	// Constants
 	static constexpr uint32_t k_const[64] = {
@@ -54,6 +49,11 @@ class sha256
 	};
 
 	//  -=- DEFINES -=-
+
+	// SHA256 definitions
+	#define SHA256_MESSAGE_SIZE 512		// bits     64 bytes long
+	#define SHA256_SCHEDULE_SIZE 64		// Word blocks in schedule
+
 	// Operations (32 bits)
 	#define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
 	
@@ -68,9 +68,6 @@ class sha256
 	//  -=- FUNCTIONS -=-
 	static void 				setupSchedule(uint32_t* W, MessageBlock& block);
 	static const std::string 	process(std::vector<MessageBlock> blocks);
-
-	MessageBlock 				getMessageblock(const char *str, uint64_t &size);
-	int 						writeMessageBlock(MessageBlock &block, const char *inp);
 };
 
 #endif // !SHA256_H

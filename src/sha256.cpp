@@ -27,6 +27,7 @@ const std::string sha256::hash(const char *str, uint64_t size)
     return (process(MsgBlk));
 }
 
+// TODO: Write tests for process method
 const std::string sha256::process(std::vector<MessageBlock> input)
 {
     uint32_t W[SHA256_SCHEDULE_SIZE];
@@ -45,8 +46,10 @@ const std::string sha256::process(std::vector<MessageBlock> input)
     // Go over each Message Block
     for (MessageBlock &block : input) {
 
-        // prepare the schedule for processing
+        // Add the Message blocks to the schedule
         setupSchedule(W, block);
+
+        // Fill in the rest of the schedule
         for (int t = 16; t < SHA256_SCHEDULE_SIZE; t++)
             W[t] = SSIG1(W[t-2]) + W[t - 7] + SSIG0(W[t-15]) + W[t-16];
 
@@ -74,7 +77,7 @@ const std::string sha256::process(std::vector<MessageBlock> input)
             a = temp1 + temp2;
         }
 
-        // compute the intermediate hash value H(i)
+        // Add the hashes to H(i)
         H[0] += a;
         H[1] += b;
         H[2] += c;
@@ -85,7 +88,22 @@ const std::string sha256::process(std::vector<MessageBlock> input)
         H[7] += h;
     }
 
-    const std::string str;
+    // finalize the string
+    char res[65];
+    res[64] = '\0';
+
+    // Go over each resulting Hash value
+    for (int idxH = 0 ; idxH < 8 ; idxH++) {
+    
+        // Separate the indiviual Hex letter values
+        for (int hex = 0 ; hex < 8 ; hex++) {
+
+            // write the letter to the resulting string
+            res[idxH * 8 + hex] = (H[idxH] << (7 - hex) * 8) & 0xFF; 
+        }
+    }
+
+    const std::string str(res);
 
     return (str);
 }
@@ -95,9 +113,9 @@ const std::string sha256::process(std::vector<MessageBlock> input)
 void showBlocks(std::vector<MessageBlock> list)
 {
     std::cout << "showBlocks\n";
-    
-    for (size_t i = 0 ; i < list.size() ; i++)
-    {
+
+    for (size_t i = 0 ; i < list.size() ; i++) {
+
         MessageBlock &block = list[i];
         std::cout << block << std::endl;
     }
