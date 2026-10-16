@@ -1,5 +1,9 @@
 #include "sha256.hpp"
 
+//  -=- DEFINES -=-
+// SHA256 definitions
+#define SHA256_MESSAGE_SIZE 512		// bits     64 bytes long
+#define SHA256_SCHEDULE_SIZE 64		// Word blocks in schedule
 
 // Constants
 static const uint32_t k_const[64] = {
@@ -146,11 +150,6 @@ const std::string sha256::hash(const char *str, uint64_t size)
         MsgBlk.emplace_back(block);
     }
 
-    showBlocks(MsgBlk);
-
-    const std::string res = process(MsgBlk);
-
-    std::cout << "hashed input: " << res << std::endl;
-
-    return (res);
+    // showBlocks(MsgBlk);
+    return (process(MsgBlk));
 }

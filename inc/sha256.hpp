@@ -2,8 +2,6 @@
 #define SHA256_H
 
 // Personal Includes
-#include <stdint.h>
-#include <stdio.h>
 #include <vector>
 #include <string>
 #include <cstdint>
@@ -19,11 +17,6 @@ namespace sha256
 };
 
 //  -=- DEFINES -=-
-
-// SHA256 definitions
-#define SHA256_MESSAGE_SIZE 512		// bits     64 bytes long
-#define SHA256_SCHEDULE_SIZE 64		// Word blocks in schedule
-
 // Operations (32 bits)
 #define ROTR(x, n) ((x >> (n & 31)) | (x << ((32 - (n & 31)) & 31)))
 
