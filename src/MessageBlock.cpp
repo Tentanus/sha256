@@ -63,6 +63,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
  *  @param  total   Total amount of bits that has been hashed (const uint64_t)
  *
  * ? I'm not sure how you would use this and know when the constructor has had it's final block.
+ *   you could keep track of it outside of the constructor.
  */
 MessageBlock::MessageBlock(const char *inp, const uint64_t total)
 {

@@ -11,20 +11,15 @@
 // Personal Includes
 #include "MessageBlock.hpp"
 
-//  -=- DEFINES -=-
-//  TODO: Move default defines to shared internal header
-#define FAILURE 1
-#define SUCCESS 0
-
 // TODO: concidere changing it to a namespace since there
 // -     is no instance needed of this sha256 object.
 namespace sha256
 {
-	static const std::string hash(const char *str, uint64_t size);
+	const std::string hash(const char *str, uint64_t size);
 
 	//  -=- VARIABLES -=-
 	// Constants
-	static constexpr uint32_t k_const[64] = {
+	const uint32_t k_const[64] = {
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
 		0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
 		0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
@@ -37,7 +32,7 @@ namespace sha256
 		0xc67178f2
 	};
 
-	static constexpr uint32_t f_const[8] = {
+	const uint32_t f_const[8] = {
 		0x6a09e667,
 		0xbb67ae85,
 		0x3c6ef372,

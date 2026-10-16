@@ -1,5 +1,20 @@
 #include "sha256.hpp"
 
+// --------------------   Debug Methods   --------------------
+
+void showBlocks(std::vector<MessageBlock> list)
+{
+    std::cout << "showBlocks: \n";
+
+    for (size_t i = 0 ; i < list.size() ; i++) {
+
+        MessageBlock &block = list[i];
+        std::cout << block << std::endl;
+    }
+}
+
+// --------------------   Debug Methods   --------------------
+
 void sha256::setupSchedule(uint32_t* W, MessageBlock& block)
 {
     for (size_t i = 0; i < SHA256_SCHEDULE_SIZE ; i++)
@@ -24,7 +39,11 @@ const std::string sha256::hash(const char *str, uint64_t size)
 
     showBlocks(MsgBlk);
 
-    return (process(MsgBlk));
+    const std::string res = process(MsgBlk);
+
+    std::cout << "hashed input: " << res << std::endl;
+
+    return (res);
 }
 
 // TODO: Write tests for process method
@@ -95,28 +114,16 @@ const std::string sha256::process(std::vector<MessageBlock> input)
     // Go over each resulting Hash value
     for (int idxH = 0 ; idxH < 8 ; idxH++) {
     
-        // Separate the indiviual Hex letter values
+        // Separate the indiviual Hex letter values in H[i] (uint32_t)
         for (int hex = 0 ; hex < 8 ; hex++) {
 
             // write the letter to the resulting string
-            res[idxH * 8 + hex] = (H[idxH] << (7 - hex) * 8) & 0xFF; 
+            res[idxH * 8 + hex] =   (( H[idxH] >> (8 - hex) * 4) & 0xF) +
+                                    (((H[idxH] >> (8 - hex) * 4) & 0xF) > 9 ? '7' : '0');
         }
     }
 
     const std::string str(res);
 
     return (str);
-}
-
-// --------------------   Debug Methods   --------------------
-
-void showBlocks(std::vector<MessageBlock> list)
-{
-    std::cout << "showBlocks\n";
-
-    for (size_t i = 0 ; i < list.size() ; i++) {
-
-        MessageBlock &block = list[i];
-        std::cout << block << std::endl;
-    }
 }

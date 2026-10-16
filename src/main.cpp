@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 		return (usage(argc, argv));
 	}
 	
-	sha256(argv[1], std::strlen(argv[1]));
+	sha256::hash(argv[1], std::strlen(argv[1]));
 
 	return 0;
 }
