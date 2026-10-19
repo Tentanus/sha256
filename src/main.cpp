@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-// TODO: add '-h/--help' option		show this usage message
+// TODO: add '-h/--help' option		show this usage fmessage
 // TODO: add '-c/--compare' option 	compare two file or string
 // TODO: add '-f/--file' option 	hash a specific file
 // TODO: improve Options into separate library
