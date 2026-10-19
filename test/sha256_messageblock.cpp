@@ -2,22 +2,26 @@
 
 #include "sha256.hpp"
 
+// TODO: add addtional test for the following cases:
+//       [ ] Multiple messageblocks
+//       [ ] 
+
 static void testMessageBlockConstructor(const char* str,
                                         const uint32_t readbytes,
-                                        const uint64_t totalbytes,
+                                        const uint64_t totalbits,
                                         const uint32_t* expected_words)
 {
-    MessageBlock block(str, readbytes, totalbytes);
+    MessageBlock block(str, readbytes, totalbits);
 
     for (size_t i = 0; i < WORD_BLOCKS; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;
 }
 
 static void testMessageBlockConstructor(const char *str,
-                                        const uint64_t totalbytes,
+                                        const uint64_t totalbits,
                                         const uint32_t* expected_words)
 {
-    MessageBlock block(str, totalbytes);
+    MessageBlock block(str, totalbits);
 
     for (size_t i = 0; i < WORD_BLOCKS; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;

@@ -13,10 +13,10 @@ enable_testing()
 
 # Build the test executable
 add_executable(test_sha256
-    test_main_options.cpp
-    test_sha256_hash.cpp
-    test_sha256_defines.cpp
-    test_sha256_messageblock.cpp
+    main_options.cpp
+    sha256_hash.cpp
+    sha256_defines.cpp
+    sha256_messageblock.cpp
 )
 
 # Link tests against GoogleTest and the sha library

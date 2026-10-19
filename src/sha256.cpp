@@ -137,7 +137,6 @@ const std::string process(std::vector<MessageBlock> input)
 
 const std::string sha256::hash(const char *str, uint64_t size)
 {
-    std::cout << "sha256\n";
     std::vector<MessageBlock> MsgBlk;
 
     //TODO: propperly implement multiple MessageBlocks

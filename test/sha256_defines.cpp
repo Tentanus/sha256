@@ -2,7 +2,7 @@
 
 #include "sha256.hpp"
 
-TEST(sha256, Rotation_func)
+TEST(sha256, Rotation_Defines)
 {
 	// Test cases for ROTR
 	EXPECT_EQ(ROTR(0x00000000u, 1), 0x00000000u);		// check if 0 stays 0
@@ -17,7 +17,7 @@ TEST(sha256, Rotation_func)
 	EXPECT_EQ(ROTR(0x00000001u, 32), 0x00000001u);		// overflow the rotation
 }
 
-TEST(sha256, Logical_func)
+TEST(sha256, Logical_Defines)
 {
 	// Test cases for Ch
 	EXPECT_EQ(Ch(0, 0, 0), 0);
@@ -40,7 +40,7 @@ TEST(sha256, Logical_func)
 	EXPECT_EQ(Maj(1, 1, 1), 1);
 }
 
-TEST(sha256, Sigma_func)
+TEST(sha256, Sigma_Defines)
 {
 	// Test cases for BSIG0
 	EXPECT_EQ(BSIG0(0x00000000u), 0x00000000u);
