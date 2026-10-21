@@ -8,8 +8,8 @@
  *  skipping null terminators
  *  ! This will segfault when passing a NULL pointer
  * 
- *  TODO: we should pass the length in bits not bytes. I'm wondering if this is easily
- * -done.
+ *  TODO: We should pass the length in bits not bytes. I'm wondering if this is easily
+ *  -     done.
  *  TODO: Add Exceptions for issues like, NULL input or other possible issues
  *  
  *  @param  inp     const char *        C-str with to be hashed info (this could contain '\0')
@@ -23,7 +23,7 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
     size_t lastSetByte = 0;
 
     // go over each word blocks in the MessageBlock
-    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++) {
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCK_SIZE ; wordIndex++) {
 
         // null the word block
         _word[wordIndex] = 0;
@@ -46,11 +46,11 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (lastSetByte >> 2 < WORD_BLOCKS - 2) {
+    if (lastSetByte >> 2 < WORD_BLOCK_SIZE - 2) {
     
         // add the total length to the final messageblock
-        _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
-        _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
+        _word[WORD_BLOCK_SIZE - 2] = (total >> 32) & 0xFFFFFFFF;
+        _word[WORD_BLOCK_SIZE - 1] = (total      ) & 0xFFFFFFFF;
     }
 }
 
@@ -61,9 +61,6 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t length, const uint64_
  *  
  *  @param  inp     C-str with to be hashed info (const char *)
  *  @param  total   Total amount of bits that has been hashed (const uint64_t)
- *
- * ? I'm not sure how you would use this and know when the constructor has had it's final block.
- *   you could keep track of it outside of the constructor.
  */
 MessageBlock::MessageBlock(const char *inp, const uint64_t total)
 {
@@ -71,20 +68,21 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
     size_t lastSetByte = 0;
 
     // go over each word block
-    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCKS ; wordIndex++) {
+    for (size_t wordIndex = 0 ; wordIndex < WORD_BLOCK_SIZE ; wordIndex++) {
 
         // null the word block
         _word[wordIndex] = 0;
 
-        // skip setting bytes is we don't have a string
+        // skip setting bytes if we've reached the end of the string
         if (inp[lastSetByte] == '\0') continue;
 
         // go over the next 4 bytes in the string
         for (lastSetByte = wordIndex * 4 ; lastSetByte < (wordIndex * 4 + 4) ; lastSetByte++) {
 
-            // and fill the byte into the word
+            // and fill the byte into the word by a clever shift left
             _word[wordIndex] += ((uint32_t) inp[lastSetByte] << ((3 -(lastSetByte & 0x3)) * 8));
 
+            // if we encounter the end of the string break out of this loop
             if (inp[lastSetByte] == '\0') break;
         }
     }
@@ -93,17 +91,17 @@ MessageBlock::MessageBlock(const char *inp, const uint64_t total)
     _word[(lastSetByte >> 2)] += (0x80 << (3 - (lastSetByte & 0x3)) * 8);
 
     // When this is the final messageblock
-    if (lastSetByte >> 2 < WORD_BLOCKS - 2) {
+    if (lastSetByte >> 2 < WORD_BLOCK_SIZE - 2) {
 
         // add the total length to the final messageblock
-        _word[WORD_BLOCKS - 2] = (total >> 32) & 0xFFFFFFFF;
-        _word[WORD_BLOCKS - 1] = (total      ) & 0xFFFFFFFF;
+        _word[WORD_BLOCK_SIZE - 2] = (total >> 32) & 0xFFFFFFFF;
+        _word[WORD_BLOCK_SIZE - 1] = (total      ) & 0xFFFFFFFF;
     }
 }
 
 MessageBlock::MessageBlock(const MessageBlock &rhs)
 {
-    for (size_t i = 0 ; i < WORD_BLOCKS ; ++i)
+    for (size_t i = 0 ; i < WORD_BLOCK_SIZE ; ++i)
         _word[i] = rhs._word[i];
 }
 
@@ -116,7 +114,7 @@ MessageBlock::~MessageBlock()
 
 void MessageBlock::setupSchedule(uint32_t *W)
 {
-    for (size_t i = 0 ; i < WORD_BLOCKS ; i++)
+    for (size_t i = 0 ; i < WORD_BLOCK_SIZE ; i++)
         W[i] = _word[i];
 }
 
@@ -124,7 +122,7 @@ void MessageBlock::setupSchedule(uint32_t *W)
 
 const uint32_t &MessageBlock::operator[](size_t idx) const
 {
-    if (idx >= WORD_BLOCKS)  {
+    if (idx >= WORD_BLOCK_SIZE)  {
 
         // TODO: convert this to an Exception that can be thrown?
         std::cerr << 
@@ -149,7 +147,7 @@ static void printWordHex(const uint32_t word) {
 std::ostream &operator<<(std::ostream &os, const MessageBlock &block)
 {
     os << "MsgBlk: \n";
-    for( size_t idx = 0 ; idx < WORD_BLOCKS ; idx++ ) 
+    for( size_t idx = 0 ; idx < WORD_BLOCK_SIZE ; idx++ ) 
     {
         std::cout << "[" << idx << "]\t";
         printWordBits(block[idx]); // print word in bits

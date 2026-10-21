@@ -3,8 +3,8 @@
 #include "sha256.hpp"
 
 // TODO: add addtional test for the following cases:
-//       [ ] Multiple messageblocks
-//       [ ] 
+// -     [ ] Multiple messageblocks
+// -     [ ] 
 
 static void testMessageBlockConstructor(const char* str,
                                         const uint32_t readbytes,
@@ -13,7 +13,7 @@ static void testMessageBlockConstructor(const char* str,
 {
     MessageBlock block(str, readbytes, totalbits);
 
-    for (size_t i = 0; i < WORD_BLOCKS; i++)
+    for (size_t i = 0; i < WORD_BLOCK_SIZE; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;
 }
 
@@ -23,7 +23,7 @@ static void testMessageBlockConstructor(const char *str,
 {
     MessageBlock block(str, totalbits);
 
-    for (size_t i = 0; i < WORD_BLOCKS; i++)
+    for (size_t i = 0; i < WORD_BLOCK_SIZE; i++)
         EXPECT_EQ(block[i], expected_words[i]) << "Mismatch at word: i = " << i;
 }
 
@@ -79,4 +79,10 @@ TEST(sha256, MessageBlock_Construction_NoLength)
                                             0x61616161, 0x20202020, 0x61616161, 0x20202020,
                                             0x61616161, 0x20202020, 0x61616161, 0x20202020,
                                             0x61616161, 0x20202080, 0x00000000, 0x000001B8});
+
+    testMessageBlockConstructor("aaaa    aaaa    aaaa    aaaa    aaaa    aaaa    aaaa   aaaa    ", 440, 
+                        (const uint32_t[]){ 0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202020, 0x61616161, 0x20202020,
+                                            0x61616161, 0x20202020, 0x61616161, 0x20202080});
 }

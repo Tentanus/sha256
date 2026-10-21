@@ -9,11 +9,10 @@
 // 512 bits  
 // 64 bytes  (16 x 4)
 
-#define WORD_BLOCKS 16
+#define WORD_BLOCK_SIZE 16
 
 /**
  *  MessageBlock
- *  
  * 
  *  @param      inp     const char *        the input string to parse
  *  @param      length  const uint64_t      the length required to still be parsed in bytes
@@ -29,7 +28,7 @@
 class MessageBlock
 {
     private:
-        uint32_t _word[WORD_BLOCKS];
+        uint32_t _word[WORD_BLOCK_SIZE];
 
     public:
         // Constructors
